@@ -28,7 +28,6 @@ export async function GET(request: Request){
     return NextResponse.json({ message: 'Recebido' });
 }
 
-
 export async function DELETE(request : Request){
     const session = await getServerSession(authOptions);
 
@@ -52,17 +51,15 @@ export async function DELETE(request : Request){
 
     const findTickets = await prismaClient.ticket.findFirst({
         where: {
-            customerId: userId
+            customerId: userId,
+            status: 'ABERTO'
         }
     });
 
     if(findTickets){
         return NextResponse.json(
             {
-                error: "Failed delete customer"
-            },
-            {
-                status: 400
+                error: "Opened ticket"
             }
         );
     }

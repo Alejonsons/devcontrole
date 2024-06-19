@@ -5,7 +5,7 @@ import { RegisterOptions, UseFormRegister } from "react-hook-form"
 
 
 
-interface InputProps{
+interface TextareaProps{
     type: string,
     placeholder: string,
     name: string,
@@ -14,17 +14,15 @@ interface InputProps{
     rules?: RegisterOptions
 }
 
-export function Input({ name, placeholder, type, register, rules, error } : InputProps){
-    console.log(rules);
+export function Textarea({ name, placeholder, type, register, rules, error } : TextareaProps){
     return(
         <>
-            <input 
-                className="w-full border-2 rounded-md h-11 px-2"
+            <textarea 
                 placeholder={placeholder}
-                type={type}
+                className="w-full border-2 px-2 rounded-md mb-2 h-24 resize-none"
                 {...register(name, rules)}
                 id={name}
-            />
+            ></textarea>
             {error && (
                 <p className="text-red-500 my-1">{error}</p>
             )}

@@ -9,6 +9,7 @@ import { redirect } from "next/navigation";
 import TicketItem from "./components/ticket";
 import prismaClient from '@/lib/prisma';
 import { ButtonRefresh } from "./components/ButtonRefresh";
+import { FiPlus } from "react-icons/fi";
 
 export default async function Dashboard(){
     const session = await getServerSession(authOptions);
@@ -39,18 +40,19 @@ export default async function Dashboard(){
                     <h1 className="text-3xl font-bold">Chamados</h1>
                     <div className="flex items-center gap-3">
                         <ButtonRefresh />
-                        <Link href="/dashboard/new" className="bg-blue-500 px-4 py-1 rounded text-white">
+                        <Link href="/dashboard/new" className="flex items-center gap-1 bg-blue-500 px-4 py-1 rounded text-white">
+                            <FiPlus size={24} color="#fff"/>
                             Novo chamado
                         </Link>
                     </div>
                 </div>
-                <table className="min-w-full my-2">
+                <table className="min-w-full my-4">
                     <thead>
                         <tr>
                             <th className="font-medium text-left pl-1">CLIENTE</th>
                             <th className="font-medium text-left hidden sm:block">DATA CADASTRO</th>
                             <th className="font-medium text-left">STATUS</th>
-                            <th className="font-medium text-left">#</th>
+                            <th className="font-medium">AÇÕES</th>
                         </tr>
                     </thead>
                     <tbody>

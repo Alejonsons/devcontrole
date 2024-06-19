@@ -7,7 +7,6 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 
 export default function Header(){
     const { status, data } = useSession();
-    console.log(status);
     
     async function handleLogin(){
         await signIn('google');
@@ -33,8 +32,8 @@ export default function Header(){
                 )}
 
                 {status === "unauthenticated" && (
-                    <button onClick={handleLogin}>
-                        <FiLock size={26} color="#4b5563"/>
+                    <button onClick={handleLogin} className="border-2 text-blue-500 rounded-full px-4 py-1 border-blue-500 hover:scale-105 transition-all">
+                        Acessar sua conta
                     </button>
                 )}
 

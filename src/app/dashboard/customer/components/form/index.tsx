@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/input';
 import { api } from '@/lib/api';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast'
 
 const schema = z.object({
     name: z.string().min(1, "O campo nome é obrigatório"),
@@ -38,6 +39,8 @@ export function NewCustomerForm({ userId } : { userId: string }){
             address: data.address,
             userId: userId
         });
+
+        toast.success('Cliente criado');
 
         router.replace("/dashboard/customer");
         router.refresh();

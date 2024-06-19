@@ -5,6 +5,7 @@
 import { CustomerProps } from "@/utils/customer.type";
 import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function CardCustomer({ customer } : { customer: CustomerProps }){
     
@@ -17,10 +18,15 @@ export default function CardCustomer({ customer } : { customer: CustomerProps })
                     id: customer.id
                 }
             });
-    
-            router.refresh();
+
+            if(response.data.error == "Opened ticket"){
+                toast.error('Existem tickets abertos deste cliente');
+            }else{
+                toast.success('Cliente deletado');
+                router.refresh();
+            }
         }catch(err){
-            throw new Error('Error while delete customer');
+            throw new Error('Error while deleting customer');
         }
     }
     

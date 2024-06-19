@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/header";
 import { AuthProvider } from "@/providers/auth";
 import { ModalProvider } from "@/providers/modal";
+import { Toaster } from 'react-hot-toast';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
         <AuthProvider>
           <ModalProvider>
             <Header />
+            <Toaster position="top-right"/>
             {children}
           </ModalProvider>
         </AuthProvider>
