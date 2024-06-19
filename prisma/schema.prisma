@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}   
+
+
+model Customer{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  phone String
+  email String
+  address String?
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  tickets Ticket[]
+  userId String? @db.ObjectId
+  User User? @relation(fields: [userId], references: [id])
+}
+
+model Ticket{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  description String
+  status String
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+
+  customerId String? @db.ObjectId
+  customer Customer? @relation(fields: [customerId], references: [id])
+  
+  userId String? @db.ObjectId
+  User User? @relation(fields: [userId], references: [id])
+
+}
+
+model Account {
+  id                 String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId             String  @db.ObjectId
+  type               String
+  provider           String
+  providerAccountId  String  @map("provider_account_id")
+  refresh_token      String? @db.String
+  access_token       String? @db.String
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.String
+  session_state      String?
+ 
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+ 
+model Session {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sessionToken String   @unique @map("session_token")
+  userId       String   @db.ObjectId
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+ 
+  @@map("sessions")
+}
+ 
+model User {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime? @map("email_verified")
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+
+  tickets Ticket[]
+  customers Customer[]
+ 
+  @@map("users")
+}
+ 
+model VerificationToken {
+  identifier String @id @default(auto()) @map("_id") @db.ObjectId
+  token      String
+  expires    DateTime
+ 
+  @@unique([identifier, token])
+  @@map("verificationtokens")
+}
